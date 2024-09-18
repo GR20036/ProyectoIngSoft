@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:padding="16dp">
+
+    <!-- Nombre del Negocio -->
+    <EditText
+        android:id="@+id/businessName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="Nombre del Negocio"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintHorizontal_bias="0"
+        android:layout_marginTop="16dp"/>
+
+    <!-- Categoría del Negocio -->
+    <EditText
+        android:id="@+id/businessCategory"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="Categoría del Negocio"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/businessName"
+        android:layout_marginTop="16dp"/>
+
+    <!-- Dirección escrita -->
+    <EditText
+        android:id="@+id/businessAddress"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="Dirección"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/businessCategory"
+        android:layout_marginTop="16dp"/>
+
+    <EditText
+        android:id="@+id/businessMapsLink"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enlace de Google Maps"
+        app:layout_constraintTop_toBottomOf="@id/businessAddress"
+        android:layout_marginTop="16dp"
+        android:inputType="textUri" />
+
+    <!-- Número de Teléfono -->
+    <EditText
+        android:id="@+id/businessPhone"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="Número de Teléfono"
+        android:inputType="phone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/businessMapsLink"
+        android:layout_marginTop="16dp"/>
+
+    <!-- Correo Electrónico -->
+    <EditText
+        android:id="@+id/businessEmail"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="Correo Electrónico"
+        android:inputType="textEmailAddress"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/businessPhone"
+        android:layout_marginTop="16dp"/>
+
+    <!-- Sección para seleccionar los días de trabajo -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Días de trabajo"
+        android:textStyle="bold"
+        android:layout_marginTop="16dp"
+        android:id="@+id/dias"
+        app:layout_constraintTop_toBottomOf="@id/businessEmail" />
+
+    <!-- Checkbox para días de la semana -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:id="@+id/semana"
+        app:layout_constraintTop_toBottomOf="@id/dias">
+
+        <CheckBox
+            android:id="@+id/checkLunes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Lunes" />
+
+        <!-- Hora de inicio y fin -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:visibility="gone"
+            android:id="@+id/horaLunesLayout">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Hora Inicio:"/>
+
+            <Button
+                android:id="@+id/btnHoraInicioLunes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Seleccionar"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Hora Fin:"/>
+
+            <Button
+                android:id="@+id/btnHoraFinLunes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Seleccionar"/>
+        </LinearLayout>
+
+        <CheckBox
+            android:id="@+id/checkMartes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Martes" />
+
+        <!-- Hora de inicio y fin -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:visibility="gone"
+            android:id="@+id/horaMartesLayout">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Hora Inicio:"/>
+
+            <Button
+                android:id="@+id/btnHoraInicioMartes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Seleccionar"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Hora Fin:"/>
+
+            <Button
+                android:id="@+id/btnHoraFinMartes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Seleccionar"/>
+        </LinearLayout>
+
+        <!-- Repite lo mismo para otros días -->
+        <!-- Martes, Miércoles, etc. -->
+    </LinearLayout>
+
+    <!-- Subir logo del negocio -->
+    <Button
+        android:id="@+id/uploadLogoButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Subir Logo del Negocio"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/semana"
+        android:layout_marginTop="16dp"
+        tools:ignore="NotSibling" />
+
+    <!-- Usuario -->
+    <EditText
+        android:id="@+id/businessUsername"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="Usuario"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/uploadLogoButton"
+        android:layout_marginTop="16dp"/>
+
+    <!-- Contraseña -->
+    <EditText
+        android:id="@+id/businessPassword"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="Contraseña"
+        android:inputType="textPassword"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/businessUsername"
+        android:layout_marginTop="16dp"/>
+
+    <!-- Botón de Registro -->
+    <Button
+        android:id="@+id/registerBusinessButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Registrar Negocio"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/businessPassword"
+        android:layout_marginTop="16dp"/>
+</androidx.constraintlayout.widget.ConstraintLayout>
