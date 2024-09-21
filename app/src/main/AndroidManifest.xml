@@ -13,11 +13,38 @@
         android:theme="@style/Theme.AppCompat.Light.NoActionBar"
         tools:targetApi="31">
         <activity
-            android:name=".configuracion_horario"
+            android:name=".DetallesCita"
             android:exported="false" />
         <activity
+            android:name=".GestionCitas"
+            android:exported="false" />
+        <activity
+            android:name=".CitasAdapter"
+            android:exported="false" />
+        <activity
+            android:name=".Dashboard_Negocio"
+            android:exported="false"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".Login_Negocio"
+            android:exported="false"
+            android:launchMode="singleTop" />
+        <activity
+            android:name=".Login_Usuario"
+            android:exported="false"
+            android:launchMode="singleTop" />
+        <activity
+            android:name=".Registro_Usuario"
+            android:exported="false"
+            android:launchMode="singleTop" />
+        <activity
+            android:name=".configuracion_horario"
+            android:exported="false"
+            android:launchMode="singleTop" />
+        <activity
             android:name=".primera_vista"
-            android:exported="true">
+            android:exported="true"
+            android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -26,11 +53,13 @@
         </activity>
         <activity
             android:name=".Registro_Negocio"
-            android:exported="true"></activity>
+            android:exported="true"
+            android:launchMode="singleTop" />
         <activity
             android:name=".MainActivity"
             android:exported="true"
             android:label="@string/app_name"
+            android:launchMode="singleTop"
             android:theme="@style/Theme.Agendify" />
     </application>
 

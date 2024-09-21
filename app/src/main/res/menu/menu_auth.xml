@@ -1,0 +1,14 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/registerUser_it"
+        android:title="Registrarse como Usuario" />
+    <item
+        android:id="@+id/registerBusiness_it"
+        android:title="Registrarse como Negocio" />
+    <item
+        android:id="@+id/loginUser_it"
+        android:title="Iniciar Sesión como Usuario" />
+    <item
+        android:id="@+id/loginBusiness_it"
+        android:title="Iniciar Sesión como Negocio" />
+</menu>

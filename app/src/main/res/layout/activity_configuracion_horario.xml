@@ -15,7 +15,19 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:layout_marginTop="15sp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Configura los horarios de tu negocio!"
+                android:textAlignment="center"
+                android:textSize="20sp"
+                android:layout_marginTop="15sp"
+                android:layout_marginBottom="5sp"
+                android:textColor="#000000"/>
 
             <!-- Lunes -->
             <LinearLayout
@@ -23,14 +35,15 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:gravity="center_vertical"
-                android:paddingBottom="8dp">
+                android:paddingTop="18dp">
 
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Lunes"
-                    android:textSize="16sp" />
+                    android:textSize="16sp"
+                    android:textColor="#000000"/>
 
                 <Switch
                     android:id="@+id/switchLunes"
@@ -51,14 +64,18 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Hora inicio" />
+                    android:text="Hora inicio"
+                    android:textColor="#FFFFFF"
+                    android:background="@drawable/boton_personalizado2"/>
 
                 <Button
                     android:id="@+id/endLunesButton"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Hora fin" />
+                    android:text="Hora fin"
+                    android:textColor="#FFFFFF"
+                    android:background="@drawable/boton_personalizado2"/>
             </LinearLayout>
 
             <!-- Martes -->
@@ -67,14 +84,15 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:gravity="center_vertical"
-                android:paddingBottom="8dp">
+                android:paddingTop="18dp">
 
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Martes"
-                    android:textSize="16sp" />
+                    android:textSize="16sp"
+                    android:textColor="#000000"/>
 
                 <Switch
                     android:id="@+id/switchMartes"
@@ -95,14 +113,18 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Hora inicio" />
+                    android:text="Hora inicio"
+                    android:textColor="#FFFFFF"
+                    android:background="@drawable/boton_personalizado2"/>
 
                 <Button
                     android:id="@+id/endMartesButton"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Hora fin" />
+                    android:text="Hora fin"
+                    android:textColor="#FFFFFF"
+                    android:background="@drawable/boton_personalizado2"/>
             </LinearLayout>
 
             <!-- Miercoles -->
@@ -111,14 +133,15 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:gravity="center_vertical"
-                android:paddingBottom="8dp">
+                android:paddingTop="18dp">
 
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Miercoles"
-                    android:textSize="16sp" />
+                    android:textSize="16sp"
+                    android:textColor="#000000"/>
 
                 <Switch
                     android:id="@+id/switchMiercoles"
@@ -139,14 +162,18 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Hora inicio" />
+                    android:text="Hora inicio"
+                    android:textColor="#FFFFFF"
+                    android:background="@drawable/boton_personalizado2"/>
 
                 <Button
                     android:id="@+id/endMiercolesButton"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Hora fin" />
+                    android:text="Hora fin"
+                    android:textColor="#FFFFFF"
+                    android:background="@drawable/boton_personalizado2"/>
             </LinearLayout>
 
             <!-- Jueves -->
@@ -155,14 +182,15 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:gravity="center_vertical"
-                android:paddingBottom="8dp">
+                android:paddingTop="18dp">
 
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Jueves"
-                    android:textSize="16sp" />
+                    android:textSize="16sp"
+                    android:textColor="#000000"/>
 
                 <Switch
                     android:id="@+id/switchJueves"
@@ -183,14 +211,18 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Hora inicio" />
+                    android:text="Hora inicio"
+                    android:textColor="#FFFFFF"
+                    android:background="@drawable/boton_personalizado2"/>
 
                 <Button
                     android:id="@+id/endJuevesButton"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Hora fin" />
+                    android:text="Hora fin"
+                    android:textColor="#FFFFFF"
+                    android:background="@drawable/boton_personalizado2"/>
             </LinearLayout>
 
             <!-- Viernes -->
@@ -199,14 +231,15 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:gravity="center_vertical"
-                android:paddingBottom="8dp">
+                android:paddingTop="18dp">
 
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Viernes"
-                    android:textSize="16sp" />
+                    android:textSize="16sp"
+                    android:textColor="#000000"/>
 
                 <Switch
                     android:id="@+id/switchViernes"
@@ -227,14 +260,18 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Hora inicio" />
+                    android:text="Hora inicio"
+                    android:textColor="#FFFFFF"
+                    android:background="@drawable/boton_personalizado2"/>
 
                 <Button
                     android:id="@+id/endViernesButton"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Hora fin" />
+                    android:text="Hora fin"
+                    android:textColor="#FFFFFF"
+                    android:background="@drawable/boton_personalizado2"/>
             </LinearLayout>
 
             <!-- Sabado -->
@@ -243,14 +280,15 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:gravity="center_vertical"
-                android:paddingBottom="8dp">
+                android:paddingTop="18dp">
 
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Sabado"
-                    android:textSize="16sp" />
+                    android:textSize="16sp"
+                    android:textColor="#000000"/>
 
                 <Switch
                     android:id="@+id/switchSabado"
@@ -271,14 +309,18 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Hora inicio" />
+                    android:text="Hora inicio"
+                    android:textColor="#FFFFFF"
+                    android:background="@drawable/boton_personalizado2"/>
 
                 <Button
                     android:id="@+id/endSabadoButton"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Hora fin" />
+                    android:text="Hora fin"
+                    android:textColor="#FFFFFF"
+                    android:background="@drawable/boton_personalizado2"/>
             </LinearLayout>
 
             <!-- Domingo -->
@@ -287,14 +329,15 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:gravity="center_vertical"
-                android:paddingBottom="8dp">
+                android:paddingTop="18dp">
 
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Domingo"
-                    android:textSize="16sp" />
+                    android:textSize="16sp"
+                    android:textColor="#000000"/>
 
                 <Switch
                     android:id="@+id/switchDomingo"
@@ -315,22 +358,32 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Hora inicio" />
+                    android:text="Hora inicio"
+                    android:textColor="#FFFFFF"
+                    android:background="@drawable/boton_personalizado2"/>
 
                 <Button
                     android:id="@+id/endDomingoButton"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Hora fin" />
+                    android:text="Hora fin"
+                    android:textColor="#FFFFFF"
+                    android:background="@drawable/boton_personalizado2" />
             </LinearLayout>
 
             <!-- Botón para guardar el horario -->
             <Button
-                android:id="@+id/saveScheduleButton"
+                android:id="@+id/btnGuardarHorario"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Guardar horario" />
+                android:text="Guardar horario"
+                android:textColor="#FFFFFF"
+                android:paddingLeft="20sp"
+                android:paddingRight="20sp"
+                android:layout_marginTop="40sp"
+                android:background="@drawable/boton_personalizado"
+                android:layout_gravity="center"/>
         </LinearLayout>
     </ScrollView>
 

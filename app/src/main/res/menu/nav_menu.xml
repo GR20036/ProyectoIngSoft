@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/nav_dashboard"
+        android:title="Dashboard" />
+
+    <item
+        android:id="@+id/nav_citas"
+        android:title="Citas" />
+
+    <item
+        android:id="@+id/nav_servicios"
+        android:title="Servicios" />
+
+    <item
+        android:id="@+id/nav_clientes"
+        android:title="Clientes" />
+</menu>

@@ -2,4 +2,7 @@
 <resources>
 
     <style name="Theme.Agendify" parent="android:Theme.Material.Light.NoActionBar" />
+    <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Personaliza tus colores o atributos aquí -->
+    </style>
 </resources>

@@ -8,6 +8,7 @@ android {
     namespace = "com.example.agendify"
     compileSdk = 34
 
+
     defaultConfig {
         applicationId = "com.example.agendify"
         minSdk = 26
@@ -19,6 +20,7 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
+
     }
 
     buildTypes {
@@ -66,6 +68,8 @@ dependencies {
     implementation("com.google.firebase:firebase-firestore-ktx")
     implementation("com.google.firebase:firebase-database-ktx")
     implementation("com.google.firebase:firebase-storage-ktx")
+    implementation("com.google.android.material:material:1.8.0")
+    implementation ("androidx.cardview:cardview:1.0.0")
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
     implementation(libs.androidx.activity)

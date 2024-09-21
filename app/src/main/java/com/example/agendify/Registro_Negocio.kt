@@ -12,16 +12,23 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import java.util.*
 
+
+data class Horario(
+    val inicio: String = "",
+    val fin: String = ""
+)
+
 class Registro_Negocio : AppCompatActivity() {
 
     private lateinit var auth: FirebaseAuth
     private lateinit var db: FirebaseFirestore
     private lateinit var storage: FirebaseStorage
-
+    private val REQUEST_CODE_SCHEDULE = 1
     private var logoUri: Uri? = null
+    private lateinit var menuButton: ImageButton
 
     // Variables para almacenar los horarios de trabajo
-    private val horariosLaborales = mutableMapOf<String, Pair<String, String>>()
+    private val horariosLaborales = mutableMapOf<String, Horario>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,48 +39,82 @@ class Registro_Negocio : AppCompatActivity() {
         storage = FirebaseStorage.getInstance()
 
         val businessName = findViewById<EditText>(R.id.businessName)
-        val businessCategory = findViewById<EditText>(R.id.businessCategory)
+        val spinnerCategoria = findViewById<Spinner>(R.id.businessCategory)
         val businessAddress = findViewById<EditText>(R.id.businessAddress)
         val businessPhone = findViewById<EditText>(R.id.businessPhone)
         val businessEmail = findViewById<EditText>(R.id.businessEmail)
-        val businessUsername = findViewById<EditText>(R.id.businessUsername)
         val businessPassword = findViewById<EditText>(R.id.businessPassword)
         val uploadLogoButton = findViewById<Button>(R.id.uploadLogoButton)
         val registerBusinessButton = findViewById<Button>(R.id.registerBusinessButton)
+        val businessHorario = findViewById<Button>(R.id.editHorarioRegistro)
+        val categorias = arrayOf("Salud", "Belleza", "Deportes", "Restaurantes", "Tecnología")
 
-        // Horarios laborales: lunes como ejemplo, puedes añadir más días
-        val checkLunes = findViewById<CheckBox>(R.id.checkLunes)
-        val btnHoraInicioLunes = findViewById<Button>(R.id.btnHoraInicioLunes)
-        val btnHoraFinLunes = findViewById<Button>(R.id.btnHoraFinLunes)
+        businessHorario.setOnClickListener {
+            val intent = Intent(this, configuracion_horario::class.java)
 
-        checkLunes.setOnCheckedChangeListener { _, isChecked ->
-            if (isChecked) {
-                mostrarTimePickerAMPM { horaInicio, minutoInicio, amPmInicio ->
-                    val horaFormateadaInicio = formatearHora(horaInicio, minutoInicio, amPmInicio)
-                    btnHoraInicioLunes.text = horaFormateadaInicio
-                    mostrarTimePickerAMPM { horaFin, minutoFin, amPmFin ->
-                        val horaFormateadaFin = formatearHora(horaFin, minutoFin, amPmFin)
-                        btnHoraFinLunes.text = horaFormateadaFin
-                        horariosLaborales["Lunes"] = Pair(horaFormateadaInicio, horaFormateadaFin)
-                    }
+            // Pasar los horarios actuales al intent
+            horariosLaborales.forEach { (dia, horario) ->
+                if (horario.inicio.isNotEmpty() && horario.fin.isNotEmpty()) {
+                    intent.putExtra("${dia}_inicio", horario.inicio)
+                    intent.putExtra("${dia}_fin", horario.fin)
                 }
-            } else {
-                horariosLaborales.remove("Lunes")
             }
+
+            startActivityForResult(intent, REQUEST_CODE_SCHEDULE)
+        }
+        menuButton = findViewById(R.id.menuButton4)
+
+        // Configurar el listener para el botón de menú
+        menuButton.setOnClickListener {
+            // Crear el PopupMenu y vincularlo con el botón
+            val popup = PopupMenu(this, menuButton)
+            // Inflar el menú desde un archivo XML
+            popup.menuInflater.inflate(R.menu.menu_auth, popup.menu)
+
+            // Establecer el listener de clic para manejar la selección de opción
+            popup.setOnMenuItemClickListener { item ->
+                when (item.itemId) {
+                    R.id.registerUser_it -> {
+                        // Acción para registro de usuario normal
+                        val intent = Intent(this, Registro_Usuario::class.java)
+                        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
+                        startActivity(intent)
+                        true
+                    }
+
+                    R.id.registerBusiness_it -> {
+                        // Acción para registro de negocio (actual)
+                        true
+                    }
+
+                    R.id.loginUser_it -> {
+
+                        // Acción para login de usuario normal
+                        val intent = Intent(this, Login_Usuario::class.java)
+                        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
+                        startActivity(intent)
+                        true
+                    }
+
+                    R.id.loginBusiness_it -> {
+                        // Acción para login de usuario negocio
+                        val intent = Intent(this, Login_Negocio::class.java)
+                        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
+                        startActivity(intent)
+                        true
+                    }
+
+                    else -> false
+                }
+            }
+
+            // Mostrar el menú emergente
+            popup.show()
         }
 
-        // Botón para seleccionar ubicación en Google Maps
-        val btnAgregarUbicacion = findViewById<Button>(R.id.addLocation)
-        btnAgregarUbicacion.setOnClickListener {
-            val gmmIntentUri = Uri.parse("geo:0,0?q=negocios+cercanos")
-            val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
-            mapIntent.setPackage("com.google.android.apps.maps")
-            if (mapIntent.resolveActivity(packageManager) != null) {
-                startActivity(mapIntent)
-            } else {
-                Toast.makeText(this, "Google Maps no está instalado", Toast.LENGTH_SHORT).show()
-            }
-        }
+        val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, categorias)
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        spinnerCategoria.adapter = adapter
 
         // Botón para subir logo
         uploadLogoButton.setOnClickListener {
@@ -85,40 +126,101 @@ class Registro_Negocio : AppCompatActivity() {
         // Botón para registrar el negocio
         registerBusinessButton.setOnClickListener {
             val name = businessName.text.toString()
-            val category = businessCategory.text.toString()
+            val category = spinnerCategoria.selectedItem.toString()
             val address = businessAddress.text.toString()
             val phone = businessPhone.text.toString()
             val email = businessEmail.text.toString()
-            val username = businessUsername.text.toString()
             val password = businessPassword.text.toString()
 
             if (name.isNotEmpty() && email.isNotEmpty() && password.isNotEmpty()) {
-                registerBusiness(name, category, address, phone, email, username, password)
+                registerBusiness(name, category, address, phone, email, password)
             } else {
-                Toast.makeText(this, "Por favor llena todos los campos obligatorios", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    this,
+                    "Por favor llena todos los campos obligatorios",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         }
     }
 
-    // Método para mostrar el TimePicker con AM/PM
-    private fun mostrarTimePickerAMPM(onTimeSet: (Int, Int, String) -> Unit) {
-        val calendar = Calendar.getInstance()
-        val horaActual = calendar.get(Calendar.HOUR_OF_DAY)
-        val minutoActual = calendar.get(Calendar.MINUTE)
+    // Método combinado para manejar los resultados de actividades
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
 
-        val timePicker = TimePickerDialog(this, { _, hora, minuto ->
-            val amPm = if (hora < 12) "AM" else "PM"
-            val horaEnFormato12 = if (hora % 12 == 0) 12 else hora % 12
-            onTimeSet(horaEnFormato12, minuto, amPm)
-        }, horaActual, minutoActual, false) // false para formato de 12 horas (AM/PM)
+        // Manejo del resultado de la selección de horario
+        if (requestCode == REQUEST_CODE_SCHEDULE && resultCode == RESULT_OK) {
+            // Recuperar los horarios seleccionados para cada día
+            val horarioLunesInicio = data?.getStringExtra("lunes_inicio")
+            val horarioLunesFin = data?.getStringExtra("lunes_fin")
+            val horarioMartesInicio = data?.getStringExtra("martes_inicio")
+            val horarioMartesFin = data?.getStringExtra("martes_fin")
+            val horarioMiercolesInicio = data?.getStringExtra("miercoles_inicio")
+            val horarioMiercolesFin = data?.getStringExtra("miercoles_fin")
+            val horarioJuevesInicio = data?.getStringExtra("jueves_inicio")
+            val horarioJuevesFin = data?.getStringExtra("jueves_fin")
+            val horarioViernesInicio = data?.getStringExtra("viernes_inicio")
+            val horarioViernesFin = data?.getStringExtra("viernes_fin")
+            val horarioSabadoInicio = data?.getStringExtra("sabado_inicio")
+            val horarioSabadoFin = data?.getStringExtra("sabado_fin")
+            val horarioDomingoInicio = data?.getStringExtra("domingo_inicio")
+            val horarioDomingoFin = data?.getStringExtra("domingo_fin")
 
-        timePicker.show()
-    }
+            if (horarioLunesInicio != null && horarioLunesFin != null) {
+                horariosLaborales["lunes"] = Horario(horarioLunesInicio, horarioLunesFin)
+            }
+            if (horarioMartesInicio != null && horarioMartesFin != null) {
+                horariosLaborales["martes"] = Horario(horarioMartesInicio, horarioMartesFin)
+            }
+            if (horarioMiercolesInicio != null && horarioMiercolesFin != null) {
+                horariosLaborales["miercoles"] = Horario(horarioMiercolesInicio, horarioMiercolesFin)
+            }
+            if (horarioJuevesInicio != null && horarioJuevesFin != null) {
+                horariosLaborales["jueves"] = Horario(horarioJuevesInicio, horarioJuevesFin)
+            }
+            if (horarioViernesInicio != null && horarioViernesFin != null) {
+                horariosLaborales["viernes"] = Horario(horarioViernesInicio, horarioViernesFin)
+            }
+            if (horarioSabadoInicio != null && horarioSabadoFin != null) {
+                horariosLaborales["sabado"] = Horario(horarioSabadoInicio, horarioSabadoFin)
+            }
+            if (horarioDomingoInicio != null && horarioDomingoFin != null) {
+                horariosLaborales["domingo"] = Horario(horarioDomingoInicio, horarioDomingoFin)
+            }
 
-    // Método para formatear la hora y asegurar el formato correcto
-    private fun formatearHora(hora: Int, minuto: Int, amPm: String): String {
-        val minutoFormateado = if (minuto < 10) "0$minuto" else "$minuto"
-        return "$hora:$minutoFormateado $amPm"
+            // Actualizar el texto en la UI para mostrar los horarios seleccionados
+            val horariosText = StringBuilder()
+            if (horarioLunesInicio != null && horarioLunesFin != null) {
+                horariosText.append("Lunes: $horarioLunesInicio - $horarioLunesFin\n")
+            }
+            if (horarioMartesInicio != null && horarioMartesFin != null) {
+                horariosText.append("Martes: $horarioMartesInicio - $horarioMartesFin\n")
+            }
+            if (horarioMiercolesInicio != null && horarioMiercolesFin != null) {
+                horariosText.append("Miercoles: $horarioMiercolesInicio - $horarioMiercolesFin\n")
+            }
+            if (horarioJuevesInicio != null && horarioJuevesFin != null) {
+                horariosText.append("Jueves: $horarioJuevesInicio - $horarioJuevesFin\n")
+            }
+            if (horarioViernesInicio != null && horarioViernesFin != null) {
+                horariosText.append("Viernes: $horarioViernesInicio - $horarioViernesFin\n")
+            }
+            if (horarioSabadoInicio != null && horarioSabadoFin != null) {
+                horariosText.append("Sabado: $horarioSabadoInicio - $horarioSabadoFin\n")
+            }
+            if (horarioDomingoInicio != null && horarioDomingoFin != null) {
+                horariosText.append("Domingo: $horarioDomingoInicio - $horarioDomingoFin\n")
+            }
+
+            val businessHorarioText = findViewById<TextView>(R.id.txtHorario)
+            businessHorarioText.text = "El horario del negocio es:\n$horariosText"
+        }
+
+        // Manejo del resultado de la selección de imagen
+        if (requestCode == 1 && resultCode == Activity.RESULT_OK) {
+            logoUri = data?.data
+            Toast.makeText(this, "Logo seleccionado", Toast.LENGTH_SHORT).show()
+        }
     }
 
     // Método para registrar el negocio
@@ -128,7 +230,6 @@ class Registro_Negocio : AppCompatActivity() {
         address: String,
         phone: String,
         email: String,
-        username: String,
         password: String
     ) {
         auth.createUserWithEmailAndPassword(email, password)
@@ -136,41 +237,47 @@ class Registro_Negocio : AppCompatActivity() {
                 if (task.isSuccessful) {
                     val userId = auth.currentUser?.uid
                     val business = hashMapOf(
-                        "name" to name,
-                        "category" to category,
-                        "address" to address,
-                        "phone" to phone,
+                        "nombre_negocio" to name,
+                        "categoria" to category,
+                        "direccion" to address,
+                        "telefono" to phone,
                         "email" to email,
                         "userId" to userId,
-                        "workHours" to horariosLaborales // Guardar horarios laborales
+                        "horario" to horariosLaborales // Guardar horarios laborales
                     )
 
                     // Guardar datos en Firestore
                     db.collection("Businesses").add(business)
                         .addOnSuccessListener {
-                            Toast.makeText(this, "Negocio registrado exitosamente", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(
+                                this,
+                                "Negocio registrado exitosamente",
+                                Toast.LENGTH_SHORT
+                            ).show()
 
                             // Subir logo a Firebase Storage
                             logoUri?.let { uri ->
-                                val storageRef = storage.reference.child("business_logos/${userId}.jpg")
+                                val storageRef =
+                                    storage.reference.child("business_logos/${userId}.jpg")
                                 storageRef.putFile(uri)
                             }
                         }
                         .addOnFailureListener { e ->
-                            Toast.makeText(this, "Error al registrar el negocio: ${e.message}", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(
+                                this,
+                                "Error al registrar el negocio: ${e.message}",
+                                Toast.LENGTH_SHORT
+                            ).show()
                         }
                 } else {
-                    Toast.makeText(this, "Error de autenticación: ${task.exception?.message}", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        this,
+                        "Error de autenticación: ${task.exception?.message}",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
     }
 
-    // Manejo de resultado de selección de imagen
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == 1 && resultCode == Activity.RESULT_OK) {
-            logoUri = data?.data
-            Toast.makeText(this, "Logo seleccionado", Toast.LENGTH_SHORT).show()
-        }
-    }
 }
+
