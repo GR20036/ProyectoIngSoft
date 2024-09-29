@@ -1,39 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center_horizontal"
+    android:background="#FFFFFF"
+    android:padding="16dp"
     tools:context=".primera_vista">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:gravity="center_horizontal"
-        android:background="#FFFFFF"
-        android:padding="16dp">
+    <TextView
+        android:id="@+id/labelBienvenida"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="¡Bienvenido a Agendify!\nPara comenzar, regístrate con nosotros"
+        android:textSize="22sp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="18dp"
+        android:textColor="#000000"
+        android:gravity="center"/>
 
-        <TextView
-            android:id="@+id/labelBienvenida"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Bienvenido a Agendify! \n Para comenzar registrate con nosotros"
-            android:textSize="22sp"
-            android:layout_marginBottom="8dp"
-            android:layout_marginTop="18dp"
-            android:textColor="#000000"
-            android:gravity="center"/>
     <!-- Logo de la app -->
     <ImageView
         android:id="@+id/appLogo"
-        android:layout_width="300dp"
-        android:layout_height="300dp"
+        android:layout_width="@dimen/logo_size"
+        android:layout_height="@dimen/logo_size"
         android:src="@drawable/logo_agendify"
         android:contentDescription="App Logo"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="@dimen/margin_standard"
         android:layout_marginBottom="30dp"/>
 
     <!-- Label para usuarios -->
@@ -50,10 +46,9 @@
     <!-- Botón para usuarios normales -->
     <Button
         android:id="@+id/btnUsuario"
+        style="@style/AppButtonStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:backgroundTint="#8e3d86"
-        android:textColor="#FFFFFF"
         android:text="Registrarse como usuario"
         android:layout_marginBottom="14dp"/>
 
@@ -71,22 +66,28 @@
     <!-- Botón para registro de negocios -->
     <Button
         android:id="@+id/btnNegocio"
+        style="@style/AppButtonNegocio"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:backgroundTint="#8c52ff"
-        android:textColor="#FFFFFF"
         android:layout_marginBottom="18dp"
         android:text="Registrarse como negocio"/>
 
-        <TextView
-            android:id="@+id/textViewYaTienesCuenta"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="¿Ya tienes una cuenta?"
-            android:textColor="@android:color/holo_blue_dark"
-            android:textSize="16sp"
-            android:layout_gravity="center_horizontal"
-            android:clickable="true" />
-    </LinearLayout>
+    <TextView
+        android:id="@+id/textViewYaTienesCuenta"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="¿Ya tienes una cuenta?"
+        android:textColor="@android:color/holo_blue_dark"
+        android:textSize="16sp"
+        android:layout_gravity="center_horizontal"
+        android:clickable="true" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <!-- Barra de Progreso para cargar inicio de sesión -->
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:layout_gravity="center" />
+
+</LinearLayout>
