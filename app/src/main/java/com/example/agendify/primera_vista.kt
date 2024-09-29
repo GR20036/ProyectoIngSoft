@@ -26,7 +26,8 @@ class primera_vista : AppCompatActivity() {
         val currentUser = auth.currentUser
 
         if (currentUser != null) {
-            // Si hay un usuario autenticado, redirigir al Dashboard o pantalla principal
+            // Si hay un usuario autenticado, redirigir al Dashboard o pantalla principal segun tipo de usuario Businesses y Users
+
             val intent = Intent(this, Dashboard_Negocio::class.java)
             startActivity(intent)
             finish()
