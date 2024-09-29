@@ -16,7 +16,7 @@
         android:textSize="24sp"
         android:textStyle="bold"
         android:layout_marginBottom="24dp"
-        android:textColor="#000"
+        android:textColor="#6C437D"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
@@ -117,7 +117,7 @@
                 <ImageView
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:src="@drawable/ic_calendar" />
+                    android:src="@drawable/calendario" />
 
                 <TextView
                     android:id="@+id/tvFechaDetalle"
