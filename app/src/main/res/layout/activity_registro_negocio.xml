@@ -143,6 +143,28 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/txt6"/>
 
+        <!-- citas simultaneas -->
+        <TextView
+            android:id="@+id/txt8"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="Ingresa aqui el número de citas simultaneas en la misma hora"
+            android:textColor="#000000"
+            android:textSize="12sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/businessEmail" />
+
+        <EditText
+            android:id="@+id/businessTrabajadores"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="Citas simultaneas. Ejemplo: 2"
+            android:inputType="number"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txt8"/>
+
     <!-- Sección para seleccionar los días de trabajo -->
     <LinearLayout
         android:id="@+id/horariolayout"
@@ -151,7 +173,7 @@
         android:orientation="horizontal"
         android:layout_marginTop="16dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/businessEmail">
+        app:layout_constraintTop_toBottomOf="@id/businessTrabajadores">
 
         <TextView
             android:id="@+id/txtHorario"
@@ -222,7 +244,7 @@
         android:layout_marginTop="5dp"
         android:background="@drawable/boton_personalizado2"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/businessEmail" />
+        app:layout_constraintTop_toBottomOf="@+id/businessTrabajadores" />
 
         <!-- ImageButton para desplegar el menú -->
         <ImageButton

@@ -94,11 +94,19 @@ class Login_Negocio : AppCompatActivity() {
                                     if (!documents.isEmpty) {
                                         val business = documents.first()
                                         val businessId = business.id
+                                        val businessName =  business.getString("nombre_negocio")
+                                        val businessLogoUri = business.getString("logoUri")
+                                        val citasSimultaneas = business.getString("num_citas")
 
                                         // Guardar el businessId en SharedPreferences
                                         val sharedPreferences = getSharedPreferences("BusinessPrefs", MODE_PRIVATE)
                                         val editor = sharedPreferences.edit()
                                         editor.putString("businessId", businessId)
+                                        editor.putString("businessName", businessName)
+                                        editor.putString("businessLogo", businessLogoUri)
+                                        if (citasSimultaneas != null) {
+                                            editor.putInt("limiteCitasPorHora", citasSimultaneas.toInt())
+                                        }
                                         editor.apply()
 
                                         // Mostrar mensaje de éxito y abrir Dashboard

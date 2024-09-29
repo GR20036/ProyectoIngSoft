@@ -32,7 +32,9 @@ class DetallesCita : AppCompatActivity() {
     }
 
     private fun cargarDetallesCita(citaId: String) {
-        FirebaseFirestore.getInstance().collection("citas")
+        val sharedPreferences = getSharedPreferences("BusinessPrefs", MODE_PRIVATE)
+        val businessId = sharedPreferences.getString("businessId", null)
+        FirebaseFirestore.getInstance().collection("citas_"+businessId)
             .document(citaId)
             .get()
             .addOnSuccessListener { document ->

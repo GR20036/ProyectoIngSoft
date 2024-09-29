@@ -1,7 +1,7 @@
 package com.example.agendify
 
+import android.annotation.SuppressLint
 import android.app.Activity
-import android.app.TimePickerDialog
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -10,7 +10,6 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
-import java.util.*
 
 
 data class Horario(
@@ -30,6 +29,7 @@ class Registro_Negocio : AppCompatActivity() {
     // Variables para almacenar los horarios de trabajo
     private val horariosLaborales = mutableMapOf<String, Horario>()
 
+    @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_registro_negocio)
@@ -48,6 +48,7 @@ class Registro_Negocio : AppCompatActivity() {
         val registerBusinessButton = findViewById<Button>(R.id.registerBusinessButton)
         val businessHorario = findViewById<Button>(R.id.editHorarioRegistro)
         val categorias = arrayOf("Salud", "Belleza", "Deportes", "Restaurantes", "Tecnología")
+        val citasSimultaneas = findViewById<EditText>(R.id.businessTrabajadores)
 
         businessHorario.setOnClickListener {
             val intent = Intent(this, configuracion_horario::class.java)
@@ -131,9 +132,10 @@ class Registro_Negocio : AppCompatActivity() {
             val phone = businessPhone.text.toString()
             val email = businessEmail.text.toString()
             val password = businessPassword.text.toString()
+            val num_citas = citasSimultaneas.text.toString()
 
             if (name.isNotEmpty() && email.isNotEmpty() && password.isNotEmpty()) {
-                registerBusiness(name, category, address, phone, email, password)
+                registerBusiness(name, category, address, phone, email, password, num_citas)
             } else {
                 Toast.makeText(
                     this,
@@ -230,7 +232,8 @@ class Registro_Negocio : AppCompatActivity() {
         address: String,
         phone: String,
         email: String,
-        password: String
+        password: String,
+        num_citas: String
     ) {
         auth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener { task ->
@@ -243,12 +246,15 @@ class Registro_Negocio : AppCompatActivity() {
                         "telefono" to phone,
                         "email" to email,
                         "userId" to userId,
-                        "horario" to horariosLaborales // Guardar horarios laborales
+                        "horario" to horariosLaborales, // Guardar horarios laborales
+                        "num_citas" to num_citas
                     )
 
                     // Guardar datos en Firestore
                     db.collection("Businesses").add(business)
-                        .addOnSuccessListener {
+                        .addOnSuccessListener { documentReference ->
+
+                            val businessId = documentReference.id
                             Toast.makeText(
                                 this,
                                 "Negocio registrado exitosamente",
@@ -257,9 +263,47 @@ class Registro_Negocio : AppCompatActivity() {
 
                             // Subir logo a Firebase Storage
                             logoUri?.let { uri ->
+                                // Obtener la extensión del archivo desde la URI
+                                val contentResolver = contentResolver
+                                val type = contentResolver.getType(uri)
+                                val extension = when (type) {
+                                    "image/jpeg" -> "jpg"
+                                    "image/png" -> "png"
+                                    "image/gif" -> "gif"
+                                    else -> "jpg" // Por defecto, usa .jpg
+                                }
+
+                                // Subir el archivo con la extensión correcta
                                 val storageRef =
-                                    storage.reference.child("business_logos/${userId}.jpg")
+                                    storage.reference.child("business_logos/${userId}.$extension")
                                 storageRef.putFile(uri)
+                                    .addOnSuccessListener {
+                                        // Logo subido exitosamente, guarda la URI en Firestore
+                                        storageRef.downloadUrl.addOnSuccessListener { downloadUri ->
+                                            // Guardar la URL del logo en el documento de Firestore
+                                            documentReference.update("logoUri", downloadUri.toString())
+
+                                            // Guardar información del negocio en SharedPreferences
+                                            saveBusinessInfoToSharedPreferences(businessId, name, downloadUri.toString(), num_citas.toInt())
+
+                                            // Redirigir al Dashboard del negocio
+                                            val intent = Intent(this, Dashboard_Negocio::class.java)
+                                            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                                            startActivity(intent)
+                                            finish() // Para evitar volver atrás
+                                        }
+                                    }
+                                    .addOnFailureListener { e ->
+                                        Toast.makeText(
+                                            this,
+                                            "Error al subir el logo: ${e.message}",
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                    }
+                            } ?: run {
+                                // Si no se seleccionó un logo, continuar con el registro
+                                saveBusinessInfoToSharedPreferences(businessId, name, null, num_citas.toInt())
+                                redirectToDashboard()
                             }
                         }
                         .addOnFailureListener { e ->
@@ -277,6 +321,26 @@ class Registro_Negocio : AppCompatActivity() {
                     ).show()
                 }
             }
+    }
+
+    // Función para guardar la información del negocio en SharedPreferences
+    private fun saveBusinessInfoToSharedPreferences(businessId: String, name: String, logoUri: String?, num_citas: Int) {
+        // Guardar el businessId en SharedPreferences
+        val sharedPreferences = getSharedPreferences("BusinessPrefs", MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+        editor.putString("businessId", businessId)
+        editor.putString("businessName", name)
+        editor.putString("businessLogo", logoUri)
+        editor.putInt("limiteCitasPorHora",num_citas )
+        editor.apply()
+    }
+
+    // Función para redirigir al Dashboard del negocio
+    private fun redirectToDashboard() {
+        val intent = Intent(this, Dashboard_Negocio::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        startActivity(intent)
+        finish() // Para evitar volver atrás
     }
 
 }
