@@ -7,4 +7,218 @@
     android:layout_height="match_parent"
     tools:context=".Dashboard_Usuario">
 
+    <!-- Citas Próximas -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card_citas_proximas"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="4dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <TextView
+                android:id="@+id/txt_citas_proximas"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Citas Próximas"
+                android:textSize="18sp"
+                android:textColor="#6200EE"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/txt_detalle_citas"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="No tienes citas pendientes"
+                android:textSize="14sp"
+                android:textColor="#000000" />
+
+            <!-- Botones para cancelar o reprogramar -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="end"
+                android:paddingTop="8dp">
+
+                <Button
+                    android:id="@+id/btn_cancelar_cita"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Cancelar"
+                    android:layout_marginEnd="8dp"
+                    android:textColor="#bb0624"
+                    android:background="@android:color/transparent"/>
+
+                <Button
+                    android:id="@+id/btn_reprogramar_cita"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Reprogramar"
+                    android:textColor="#8e3d86"
+                    android:background="@android:color/transparent"/>
+            </LinearLayout>
+
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <!-- Historial de Citas -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card_historial_citas"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="4dp"
+        app:layout_constraintTop_toBottomOf="@+id/card_citas_proximas"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <TextView
+                android:id="@+id/txt_historial_citas"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Historial de Citas"
+                android:textSize="18sp"
+                android:textColor="#6200EE"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/txt_detalle_historial"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="No tienes citas anteriores"
+                android:textSize="14sp"
+                android:textColor="#000000" />
+
+            <!-- Botón para repetir cita -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="end"
+                android:paddingTop="8dp">
+
+                <Button
+                    android:id="@+id/btn_repetir_cita"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Repetir Cita"
+                    android:textColor="#8e3d86"
+                    android:background="@android:color/transparent"/>
+            </LinearLayout>
+
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <!-- Notificaciones o Recordatorios -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card_notificaciones"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="4dp"
+        app:layout_constraintTop_toBottomOf="@+id/card_historial_citas"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <TextView
+                android:id="@+id/txt_notificaciones"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Notificaciones y Recordatorios"
+                android:textSize="18sp"
+                android:textColor="#6200EE"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/txt_detalle_notificaciones"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="No tienes notificaciones"
+                android:textSize="14sp"
+                android:textColor="#000000" />
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <!-- Accesos Rápidos -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card_accesos_rapidos"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="4dp"
+        app:layout_constraintTop_toBottomOf="@+id/card_notificaciones"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <TextView
+                android:id="@+id/txt_accesos_rapidos"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Accesos Rápidos"
+                android:textSize="18sp"
+                android:textColor="#6200EE"
+                android:textStyle="bold" />
+
+            <!-- Botones para acciones rápidas -->
+            <Button
+                android:id="@+id/btn_agendar_cita"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Agendar Nueva Cita"
+                android:layout_marginTop="8dp"
+                android:textColor="#FFFFFF"
+                android:background="@drawable/boton_personalizado"/>
+
+            <Button
+                android:id="@+id/btn_consultar_servicios"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Consultar Servicios Disponibles"
+                android:layout_marginTop="8dp"
+                android:textColor="#FFFFFF"
+                android:background="@drawable/boton_personalizado"/>
+
+            <Button
+                android:id="@+id/btn_contactar_soporte"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Contactar con Soporte"
+                android:layout_marginTop="8dp"
+                android:textColor="#FFFFFF"
+                android:background="@drawable/boton_personalizado"/>
+
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
