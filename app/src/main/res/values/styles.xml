@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="AppButtonStyle" parent="Widget.AppCompat.Button">
+        <item name="android:backgroundTint">#8e3d86</item>
+        <item name="android:textColor">#FFFFFF</item>
+    </style>
+
+    <style name="AppButtonNegocio" parent="Widget.AppCompat.Button">
+        <item name="android:backgroundTint">#8c52ff</item>
+        <item name="android:textColor">#FFFFFF</item>
+    </style>
+
+</resources>
