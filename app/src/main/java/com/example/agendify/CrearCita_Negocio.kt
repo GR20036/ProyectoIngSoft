@@ -110,6 +110,7 @@ class CrearCita_Negocio : AppCompatActivity(), NavigationView.OnNavigationItemSe
         servicioARealizar.adapter = adapterServicios
     }
 
+    @SuppressLint("SuspiciousIndentation")
     private fun guardarCita() {
         val nombre = nombreCliente.text.toString().trim()
         val servicio = servicioARealizar.selectedItem.toString()
@@ -134,8 +135,7 @@ class CrearCita_Negocio : AppCompatActivity(), NavigationView.OnNavigationItemSe
                     "cliente" to nombre,
                     "servicio" to servicio,
                     "fecha" to fecha,
-                    "hora" to hora,
-                    "businessId" to businessId,
+                    "hora" to hora
                 )
 
                     db.collection("citas_"+businessId)

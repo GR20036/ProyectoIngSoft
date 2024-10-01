@@ -71,7 +71,6 @@ class Login_Negocio : AppCompatActivity() {
                     else -> false
                 }
             }
-
             // Mostrar el menú emergente
             popup.show()
         }
