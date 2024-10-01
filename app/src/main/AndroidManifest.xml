@@ -25,6 +25,10 @@
             android:name=".Dashboard_Negocio"
             android:exported="false"
             android:theme="@style/AppTheme" />
+        <activity android:name=".Dashboard_Usuario"
+            android:exported="false"
+            android:theme="@style/AppTheme" />
+
         <activity
             android:name=".Login_Negocio"
             android:exported="false"
@@ -57,9 +61,6 @@
             android:launchMode="singleTop" />
         <activity
             android:name=".CrearCita_Negocio"
-            android:exported="false" />
-        <activity
-            android:name=".Dashboard_Usuario"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
