@@ -4,7 +4,7 @@
 
     <!-- Color de fondo del botón -->
     <gradient
-        android:startColor="#8e3d86"
+        android:startColor="#D3CFFC"
         android:endColor="#8c52ff"/>
 
     <!-- Bordes redondeados -->
