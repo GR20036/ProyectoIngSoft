@@ -38,9 +38,10 @@
             android:id="@+id/txt10"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Nombre completo del usuario"
             android:textColor="#000000"
-            android:textSize="12sp"/>
+            android:textSize="12sp"
+            android:text="@string/nombre_completo_usuario" />
+
 
         <EditText
             android:id="@+id/userName"
@@ -54,9 +55,10 @@
             android:id="@+id/txt11"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Número de teléfono"
             android:textColor="#000000"
-            android:textSize="12sp"/>
+            android:textSize="12sp"
+            android:text="@string/numero_telefono" />
+
         <EditText
             android:id="@+id/userPhone"
             android:layout_width="match_parent"
@@ -69,9 +71,10 @@
             android:id="@+id/txt12"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Correo electrónico"
             android:textColor="#000000"
-            android:textSize="12sp"/>
+            android:textSize="12sp"
+            android:text="@string/correo_electronico" />
+
         <EditText
             android:id="@+id/userEmail"
             android:layout_width="match_parent"
@@ -84,9 +87,10 @@
             android:id="@+id/txt13"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Contraseña"
             android:textColor="#000000"
-            android:textSize="12sp"/>
+            android:textSize="12sp"
+            android:text="@string/contraseña_obligatoria" />
+
         <EditText
             android:id="@+id/userPassword"
             android:layout_width="match_parent"

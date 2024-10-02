@@ -27,11 +27,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
-            android:text="Nombre del negocio"
             android:textColor="#000000"
             android:textSize="12sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tituloRegistroNegocio" />
+            app:layout_constraintTop_toBottomOf="@+id/tituloRegistroNegocio"
+            android:text="@string/nombre_negocio"/>
 
         <EditText
         android:id="@+id/businessName"
@@ -68,12 +68,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
-            android:text="Direccion del negocio"
             android:textColor="#000000"
             android:textSize="12sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/businessCategory" />
-    <EditText
+            app:layout_constraintTop_toBottomOf="@+id/businessCategory"
+            android:text="@string/direccion_negocio" />
+
+        <EditText
         android:id="@+id/businessAddress"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -107,12 +108,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
-            android:text="Número de teléfono"
             android:textColor="#000000"
             android:textSize="12sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/businessMapsLink" />
-    <EditText
+            app:layout_constraintTop_toBottomOf="@+id/businessMapsLink"
+            android:text="@string/numero_telefono" />
+
+        <EditText
         android:id="@+id/businessPhone"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -128,11 +130,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
-            android:text="Correo electrónico"
             android:textColor="#000000"
             android:textSize="12sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/businessPhone" />
+            app:layout_constraintTop_toBottomOf="@+id/businessPhone"
+            android:text="@string/correo_electronico" />
+
         <EditText
         android:id="@+id/businessEmail"
         android:layout_width="0dp"
@@ -205,14 +208,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
-            android:text="Contraseña"
             android:textColor="#000000"
             android:textSize="12sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/uploadLogoButton" />
+            app:layout_constraintTop_toBottomOf="@+id/uploadLogoButton"
+            android:text="@string/contraseña_obligatoria" />
 
 
-    <EditText
+
+        <EditText
         android:id="@+id/businessPassword"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
