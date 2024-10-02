@@ -23,7 +23,7 @@
             android:textSize="18sp"
             android:textStyle="bold" />
 
-        <!-- Servicio -->
+        <!-- com.example.agendify.Servicio -->
         <TextView
             android:id="@+id/tvServicio"
             android:layout_width="wrap_content"

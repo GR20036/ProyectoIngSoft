@@ -19,34 +19,26 @@ import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.squareup.picasso.Picasso
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.firebase.firestore.Query
-import java.text.SimpleDateFormat
-import java.time.LocalDate
-import java.time.LocalTime
-import java.time.format.DateTimeFormatter
-import java.util.Calendar
-import java.util.Date
-import java.util.Locale
 
-class GestionCitas : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+class GestionServicios : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
     private lateinit var drawerLayout: DrawerLayout
-    private lateinit var citasAdapter: CitasAdapter
-    private val citasList = mutableListOf<Cita>()
+    private lateinit var serviciosAdapter: ServiciosAdapter
+    private val serviciosList = mutableListOf<Servicio>()
 
-    @SuppressLint("MissingInflatedId")
+    @SuppressLint("MissingInflatedId", "NotifyDataSetChanged")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_gestion_citas)
+        setContentView(R.layout.activity_gestion_servicios)
 
         val sharedPreferences = getSharedPreferences("BusinessPrefs", MODE_PRIVATE)
         val businessName = sharedPreferences.getString("businessName", "Nombre del Negocio")
         val businessLogo = sharedPreferences.getString("businessLogo", null)
-        val btn_nueva_cita: FloatingActionButton = findViewById(R.id.btn_nueva_cita_negocio)
+        val btn_nuevo_servicio: FloatingActionButton = findViewById(R.id.btn_nuevo_servicio_negocio)
 
         // Configurar Toolbar y DrawerLayout
         val toolbar: Toolbar = findViewById(R.id.toolbar)
-        drawerLayout = findViewById(R.id.drawer_layout2)
+        drawerLayout = findViewById(R.id.drawer_layout3)
 
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -73,57 +65,64 @@ class GestionCitas : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             Picasso.get().load(businessLogo).into(navHeaderLogo)
         }
 
-        // Configurar RecyclerView
-        citasAdapter = CitasAdapter(citasList) { cita ->
-            // Al hacer clic en una cita, mostrar detalles
-            val intent = Intent(this, DetallesCita::class.java)
-            intent.putExtra("citaId", cita.id)
-            startActivity(intent)
-        }
+        serviciosAdapter = ServiciosAdapter(serviciosList)
 
-        val recyclerViewCitas: RecyclerView = findViewById(R.id.recyclerViewCitas)
-        recyclerViewCitas.layoutManager = LinearLayoutManager(this)
-        recyclerViewCitas.adapter = citasAdapter
+        val recyclerViewServicios: RecyclerView = findViewById(R.id.recyclerViewServicios)
+        recyclerViewServicios.layoutManager = LinearLayoutManager(this)
+        recyclerViewServicios.adapter = serviciosAdapter
 
-        btn_nueva_cita.setOnClickListener {
-            val intent = Intent(this, CrearCita_Negocio::class.java)
-            startActivity(intent)
-        }
 
-        // Cargar citas desde Firebase
-        cargarCitas()
+        btn_nuevo_servicio.setOnClickListener {
+            val dialog = Agregar_Servicio()
+            dialog.setOnSaveListener { nombre, descripcion, duracion, precio ->
+                val sharedPreferences = getSharedPreferences("BusinessPrefs", MODE_PRIVATE)
+                val businessId = sharedPreferences.getString("businessId", null)
+
+                // Crear objeto servicio
+                val servicio = Servicio(nombre, descripcion, duracion, precio)
+
+                // Añadir a la lista y notificar al adapter
+                serviciosList.add(servicio)
+                serviciosAdapter.notifyDataSetChanged()
+
+                // Guardar en Firebase Firestore si es necesario
+                if (businessId != null) {
+                    FirebaseFirestore.getInstance().collection("Businesses")
+                        .document(businessId)
+                        .collection("servicios")
+                        .add(servicio)
+                        .addOnSuccessListener {
+                            Toast.makeText(this, "Servicio agregado", Toast.LENGTH_SHORT).show()
+                        }
+                        .addOnFailureListener {
+                            Toast.makeText(this, "Error al agregar servicio", Toast.LENGTH_SHORT).show()
+                        }
+                }
+            }
+                dialog.show(supportFragmentManager, "AddServiceDialog")
+            }
+
+        // Cargar servicios desde Firebase
+        cargarServicios()
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    private fun cargarCitas() {
+    private fun cargarServicios() {
         val sharedPreferences = getSharedPreferences("BusinessPrefs", MODE_PRIVATE)
         val businessId = sharedPreferences.getString("businessId", null)
         if (businessId != null) {
-            FirebaseFirestore.getInstance().collection("Businesses").document(businessId).collection("citas")
-                .orderBy("fecha", Query.Direction.ASCENDING)  // Ordenar por fecha
-                .orderBy("hora", Query.Direction.ASCENDING)    // Ordenar por hora
+
+            serviciosList.clear()
+
+            FirebaseFirestore.getInstance().collection("Businesses").document(businessId).collection("servicios")
                 .get()
                 .addOnSuccessListener { documents ->
-
-                    val dateFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy", Locale.US)
-                    val timeFormatter = DateTimeFormatter.ofPattern("hh:mm a", Locale.US)
-                    val today = Calendar.getInstance().time
-                    val dateFormat = SimpleDateFormat("dd-MM-yyyy", Locale.US) // Asegúrate que el formato coincida con tu formato de fecha
-                    citasList.clear()
                     for (document in documents) {
-                        val cita = document.toObject(Cita::class.java)
-                        cita.id = document.id
-                        // Convertir el String de fecha a un objeto Date
-                        val citaFecha: Date? = dateFormat.parse(cita.fecha)
-                        if (citaFecha != null && !citaFecha.before(today)) {
-                            citasList.add(cita)
-                        }
+                        val servicio = document.toObject(Servicio::class.java)
+                        Toast.makeText(this, "1",Toast.LENGTH_SHORT).show()
+                        serviciosList.add(servicio)
                     }
-                    citasList.sortWith(compareBy(
-                        { LocalDate.parse(it.fecha, dateFormatter) },  // Parsear fecha
-                        { LocalTime.parse(it.hora, timeFormatter) }   // Parsear hora
-                    ))
-                    citasAdapter.notifyDataSetChanged()
+                    serviciosAdapter.notifyDataSetChanged()
                 }
                 .addOnFailureListener { exception ->
                     println("Error getting documents: $exception")
@@ -154,11 +153,11 @@ class GestionCitas : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 startActivity(intent)
             }
             R.id.nav_citas -> {
-
+                val intent = Intent(this, GestionCitas::class.java)
+                startActivity(intent)
             }
             R.id.nav_servicios -> {
-                val intent = Intent(this, GestionServicios::class.java)
-                startActivity(intent)
+
             }
             R.id.nav_clientes -> {
                 val intent = Intent(this, Login_Usuario::class.java)
@@ -171,9 +170,5 @@ class GestionCitas : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         drawerLayout.closeDrawer(GravityCompat.START)
         return true
-    }
-    override fun onResume() {
-        cargarCitas()
-        super.onResume()
     }
 }

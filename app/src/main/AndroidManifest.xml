@@ -23,6 +23,12 @@
             />
 
         <activity
+            android:name=".GestionServicios"
+            android:exported="false" />
+        <activity
+            android:name=".Agregar_Servicio"
+            android:exported="false" />
+        <activity
             android:name=".DetallesCita"
             android:exported="false" />
         <activity

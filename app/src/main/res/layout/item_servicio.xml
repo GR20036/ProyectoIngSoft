@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <TextView
+        android:id="@+id/tvNombreServicio"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Nombre del servicio"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintWidth_percent="0.8"
+        android:padding="8dp"/>
+
+    <TextView
+        android:id="@+id/tvDescripcionServicio"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Descripción"
+        app:layout_constraintTop_toBottomOf="@id/tvNombreServicio"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:padding="8dp"
+        app:layout_constraintWidth_percent="0.8"/>
+
+    <TextView
+        android:id="@+id/tvTiempoAproxServicio"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Tiempo"
+        app:layout_constraintTop_toBottomOf="@id/tvDescripcionServicio"
+        app:layout_constraintStart_toStartOf="parent"
+        android:padding="8dp"/>
+
+    <TextView
+        android:id="@+id/tvPrecioServicio"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Precio"
+        app:layout_constraintTop_toBottomOf="@id/tvDescripcionServicio"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:padding="8dp"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -94,7 +94,7 @@ class Dashboard_Negocio : AppCompatActivity(), NavigationView.OnNavigationItemSe
                 startActivity(intent)
             }
             R.id.nav_servicios -> {
-                val intent = Intent(this, Login_Usuario::class.java)
+                val intent = Intent(this, GestionServicios::class.java)
                 startActivity(intent)
             }
             R.id.nav_clientes -> {

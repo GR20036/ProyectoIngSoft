@@ -33,8 +33,7 @@ class CrearCita_Negocio : AppCompatActivity(), NavigationView.OnNavigationItemSe
     private lateinit var btnGuardarCita: Button
     private lateinit var db: FirebaseFirestore
     private var selectedDate: Calendar? = null
-    private var horaInicio: String? = null
-    private var horaFin: String? = null
+
     // Lista que almacenará los días en los que el negocio trabaja
     private val diasDeTrabajo = mutableListOf<String>()
 
@@ -137,8 +136,7 @@ class CrearCita_Negocio : AppCompatActivity(), NavigationView.OnNavigationItemSe
                     "fecha" to fecha,
                     "hora" to hora
                 )
-
-                    db.collection("citas_"+businessId)
+                    db.collection("Businesses").document(businessId).collection("citas")
                     .add(cita)
                     .addOnSuccessListener {
                         Toast.makeText(this, "Cita creada correctamente", Toast.LENGTH_SHORT).show()
@@ -152,7 +150,7 @@ class CrearCita_Negocio : AppCompatActivity(), NavigationView.OnNavigationItemSe
     }
 
     private fun citasEnMismaHora(fecha: String, hora: String, callback: (Int) -> Unit) {
-        db.collection("citas_"+businessId)
+        db.collection("Businesses").document(businessId).collection("citas")
             .whereEqualTo("fecha", fecha)
             .whereEqualTo("hora", hora)
             .get()
@@ -183,7 +181,7 @@ class CrearCita_Negocio : AppCompatActivity(), NavigationView.OnNavigationItemSe
                 startActivity(intent)
             }
             R.id.nav_servicios -> {
-                val intent = Intent(this, GestionCitas::class.java)
+                val intent = Intent(this, GestionServicios::class.java)
                 startActivity(intent)
             }
             R.id.nav_clientes -> {

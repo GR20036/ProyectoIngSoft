@@ -71,6 +71,7 @@ dependencies {
     implementation("com.google.android.material:material:1.8.0")
     implementation ("androidx.cardview:cardview:1.0.0")
     implementation ("com.squareup.picasso:picasso:2.8")
+    implementation ("com.google.android.material:material:1.12.0")
     implementation ("com.github.bumptech.glide:glide:4.12.0")//Glide para cargar imágenes
     annotationProcessor ("com.github.bumptech.glide:compiler:4.12.0")//Glide para cargar imágenes
     implementation(libs.androidx.appcompat)
@@ -84,5 +85,4 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
-
 }
