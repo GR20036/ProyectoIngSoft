@@ -1,7 +1,9 @@
 package com.example.agendify;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
@@ -12,7 +14,7 @@ import java.util.List;
 public class NegociosAdapter extends RecyclerView.Adapter<NegociosAdapter.NegociosViewHolder> {
 
     private List<Negocio> negocioList;
-
+    public Button btnAgendarCita;
     public NegociosAdapter(List<Negocio> negocioList) {
         this.negocioList = negocioList;
     }
@@ -33,12 +35,19 @@ public class NegociosAdapter extends RecyclerView.Adapter<NegociosAdapter.Negoci
         holder.txtNombre.setText(negocio.getNombre());
         holder.txtDescripcion.setText(negocio.getDescripcion());
 
+
         // Cargar el logo usando Glide desde una URL
         Glide.with(holder.itemView.getContext())
                 .load(negocio.getLogoUrl()) // URL del logo
                 .placeholder(R.drawable.place_holder) // Imagen temporal mientras carga
                 .error(R.drawable.error_logo) // Imagen en caso de error
                 .into(holder.imgLogoNegocio); // Cargar en el ImageView
+        // Agendar cita: al hacer clic en el botón "Agendar Cita"
+        holder.btnAgendarCita.setOnClickListener(v -> {
+            Intent intent = new Intent(holder.itemView.getContext(), GestionCitas.class);//temporal
+            intent.putExtra("negocioId", negocio.getId());  // Pasar el ID del negocio
+            holder.itemView.getContext().startActivity(intent);
+        });
     }
 
 
@@ -50,12 +59,14 @@ public class NegociosAdapter extends RecyclerView.Adapter<NegociosAdapter.Negoci
     static class NegociosViewHolder extends RecyclerView.ViewHolder {
         TextView txtNombre, txtDescripcion;
         ImageView imgLogoNegocio;
+        Button btnAgendarCita;
 
         public NegociosViewHolder(@NonNull View itemView) {
             super(itemView);
             txtNombre = itemView.findViewById(R.id.txtNombreNegocio);
             txtDescripcion = itemView.findViewById(R.id.txtDescripcionNegocio);
             imgLogoNegocio = itemView.findViewById(R.id.imgLogoNegocio); // Asegúrate de inicializar el ImageView
+            btnAgendarCita = itemView.findViewById(R.id.btnAgendarCita);
         }
     }
 }

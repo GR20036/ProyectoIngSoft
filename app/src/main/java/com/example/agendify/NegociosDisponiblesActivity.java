@@ -70,9 +70,10 @@ public class NegociosDisponiblesActivity extends AppCompatActivity implements Na
                         String nombre = document.getString("nombre_negocio");
                         String telefono = document.getString("telefono");
                         String logoUrl = document.getString("logo_url");
+                        String id = document.getId();
 
                         if (nombre != null && telefono != null) {
-                            Negocio negocio = new Negocio(nombre, telefono, logoUrl); // URL temporal
+                            Negocio negocio = new Negocio(nombre, telefono, logoUrl,id ); // URL temporal
                             negocioList.add(negocio); // Agregar el negocio a la lista
                         }
                     }
