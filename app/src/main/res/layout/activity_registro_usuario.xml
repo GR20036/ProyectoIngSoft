@@ -57,7 +57,7 @@
             android:layout_height="wrap_content"
             android:textColor="#000000"
             android:textSize="12sp"
-            android:text="@string/numero_telefono_obligatorio" />
+            android:text="@string/numero_telefono" />
 
         <EditText
             android:id="@+id/userPhone"
