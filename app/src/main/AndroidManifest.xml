@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    >
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
 
     <application
         android:allowBackup="true"
@@ -12,6 +15,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar"
         tools:targetApi="31">
+
+        <activity
+            android:name=".NegociosDisponiblesActivity"
+            android:exported="false"
+            android:theme="@style/AppTheme"
+            />
+
         <activity
             android:name=".DetallesCita"
             android:exported="false" />
@@ -25,10 +35,10 @@
             android:name=".Dashboard_Negocio"
             android:exported="false"
             android:theme="@style/AppTheme" />
-        <activity android:name=".Dashboard_Usuario"
+        <activity
+            android:name=".Dashboard_Usuario"
             android:exported="false"
             android:theme="@style/AppTheme" />
-
         <activity
             android:name=".Login_Negocio"
             android:exported="false"

@@ -2,4 +2,10 @@
     <string name="app_name">Agendify</string>
     <string name="open">Abrir menú</string>
     <string name="close">Cerrar menú</string>
+
+    <!-- Strings para el DrawerLayout -->
+    <string name="navigation_drawer_open">Abrir menú</string>
+    <string name="navigation_drawer_close">Cerrar menú</string>
+
+
 </resources>

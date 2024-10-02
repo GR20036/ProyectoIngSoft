@@ -79,7 +79,11 @@ public class Dashboard_Usuario extends AppCompatActivity {
         });
 
         btnvernegocios.setOnClickListener(v -> {
-            // Acción para consultar servicios disponibles
+            // Acción para ver negocios disponibles
+            Intent intent = new Intent(Dashboard_Usuario.this, NegociosDisponiblesActivity.class);
+            startActivity(intent);
+
+
         });
 
         btnContactarSoporte.setOnClickListener(v -> {
