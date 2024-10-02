@@ -5,25 +5,27 @@ import android.app.DatePickerDialog
 import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
-import android.widget.*
-import androidx.appcompat.app.AppCompatActivity
+import android.widget.ArrayAdapter
+import android.widget.Button
+import android.widget.Spinner
+import android.widget.Toast
+import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import com.squareup.picasso.Picasso
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Calendar
+import java.util.Locale
 
-
-class CrearCita_Negocio : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+class CrearCita_Usuario : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var businessId: String
-    private lateinit var nombreCliente: EditText
     private lateinit var btnFechaCita: Button
     private lateinit var horaCita: Spinner
     private lateinit var servicioARealizar: Spinner
@@ -37,16 +39,15 @@ class CrearCita_Negocio : AppCompatActivity(), NavigationView.OnNavigationItemSe
     // Mapa que almacenará los horarios de trabajo por cada día
     private val horarioDeTrabajo = mutableMapOf<String, Pair<String, String>>()
 
-
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_crear_cita_negocio)
+        enableEdgeToEdge()
+        setContentView(R.layout.activity_crear_cita_usuario)
 
         db = FirebaseFirestore.getInstance()
 
-        // Obtener businessId desde las SharedPreferences
-        val sharedPreferences = getSharedPreferences("BusinessPrefs", MODE_PRIVATE)
+        val sharedPreferences = getSharedPreferences("UsuarioPrefs", MODE_PRIVATE)
         businessId = sharedPreferences.getString("businessId", "") ?: ""
 
         // Configurar el menú lateral
@@ -62,22 +63,6 @@ class CrearCita_Negocio : AppCompatActivity(), NavigationView.OnNavigationItemSe
         drawerLayout.addDrawerListener(toggle)
         toggle.syncState()
 
-        val navigationView: NavigationView = findViewById(R.id.nav_view)
-        navigationView.setNavigationItemSelectedListener(this)
-
-        val headerView = navigationView.getHeaderView(0)
-        val navHeaderName: TextView = headerView.findViewById(R.id.tvNombreNegocio)
-        val navHeaderLogo: ImageView = headerView.findViewById(R.id.imgLogoNegocio)
-
-        val businessName = sharedPreferences.getString("businessName", "Nombre del Negocio")
-        val businessLogo = sharedPreferences.getString("businessLogo", null)
-
-        navHeaderName.text = businessName
-        if (businessLogo != null) {
-            Picasso.get().load(businessLogo).into(navHeaderLogo)
-        }
-
-        nombreCliente = findViewById(R.id.etNombreCliente)
         servicioARealizar = findViewById(R.id.spinnerServicio)
         btnFechaCita = findViewById(R.id.btnFechaCita)
         horaCita = findViewById(R.id.spinnerHora)
@@ -99,8 +84,7 @@ class CrearCita_Negocio : AppCompatActivity(), NavigationView.OnNavigationItemSe
     private fun configurarSpinners() {
         // Configuración del spinner de servicio
         val servicios = mutableListOf<String>()
-        val sharedPreferences = getSharedPreferences("BusinessPrefs", MODE_PRIVATE)
-        val businessId = sharedPreferences.getString("businessId", null)
+
         if (businessId != null) {
             FirebaseFirestore.getInstance().collection("Businesses").document(businessId).collection("servicios")
                 .get()
@@ -122,11 +106,12 @@ class CrearCita_Negocio : AppCompatActivity(), NavigationView.OnNavigationItemSe
 
     @SuppressLint("SuspiciousIndentation")
     private fun guardarCita() {
-        val nombre = nombreCliente.text.toString().trim()
+        val sharedPreferences = getSharedPreferences("UsuarioPrefs", MODE_PRIVATE)
+        val nombre = sharedPreferences.getString("nombreUsuario", null)
         val servicio = servicioARealizar.selectedItem.toString()
         val hora = horaCita.selectedItem.toString()
 
-        if (nombre.isEmpty() || servicio.isEmpty() || selectedDate == null || hora.isEmpty()) {
+        if (servicio.isEmpty() || selectedDate == null || hora.isEmpty()) {
             Toast.makeText(this, "Por favor complete todos los campos", Toast.LENGTH_SHORT).show()
             return
         }
@@ -147,7 +132,7 @@ class CrearCita_Negocio : AppCompatActivity(), NavigationView.OnNavigationItemSe
                     "fecha" to fecha,
                     "hora" to hora
                 )
-                    db.collection("Businesses").document(businessId).collection("citas")
+                db.collection("Businesses").document(businessId).collection("citas")
                     .add(cita)
                     .addOnSuccessListener {
                         Toast.makeText(this, "Cita creada correctamente", Toast.LENGTH_SHORT).show()
@@ -181,23 +166,20 @@ class CrearCita_Negocio : AppCompatActivity(), NavigationView.OnNavigationItemSe
         return sharedPreferences.getInt("limiteCitasPorHora", 1) // Valor predeterminado 1
     }
 
-    override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.nav_dashboard -> {
-                val intent = Intent(this, Dashboard_Negocio::class.java)
-                startActivity(intent)
-            }
-            R.id.nav_citas -> {
-                val intent = Intent(this, GestionCitas::class.java)
-                startActivity(intent)
-            }
-            R.id.nav_servicios -> {
-                val intent = Intent(this, GestionServicios::class.java)
-                startActivity(intent)
-            }
-            R.id.nav_logout -> {
-                cerrarSesion()
-            }
+    public override fun onNavigationItemSelected(item: MenuItem): Boolean {
+        val id = item.itemId
+
+        if (id == R.id.nav_home) {
+            // Ir al Home
+            val intent = Intent(this, Dashboard_Usuario::class.java)
+            startActivity(intent)
+        } else if (id == R.id.nav_profile) {
+            // Navegar a Perfil
+        } else if (id == R.id.nav_settings) {
+            // Navegar a Ajustes
+        } else if (id == R.id.nav_logout) {
+            //cerramos sesion
+            cerrarSesion()
         }
 
         drawerLayout.closeDrawer(GravityCompat.START)
@@ -208,7 +190,7 @@ class CrearCita_Negocio : AppCompatActivity(), NavigationView.OnNavigationItemSe
         FirebaseAuth.getInstance().signOut()
         val sharedPref = getSharedPreferences("BusinessPrefs", MODE_PRIVATE)
         sharedPref.edit().clear().apply()
-        val intent = Intent(this, Login_Negocio::class.java)
+        val intent = Intent(this, Login_Usuario::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         startActivity(intent)
         finish()

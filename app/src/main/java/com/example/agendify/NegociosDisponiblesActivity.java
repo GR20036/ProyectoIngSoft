@@ -49,7 +49,7 @@ public class NegociosDisponiblesActivity extends AppCompatActivity implements Na
 
         // Configurar el DrawerToggle para abrir/cerrar el menú
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+                this, drawerLayout, toolbar, R.string.open, R.string.close);
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
 

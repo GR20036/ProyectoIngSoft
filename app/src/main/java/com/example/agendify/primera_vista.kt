@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -22,6 +23,13 @@ class primera_vista : AppCompatActivity() {
 
         auth = FirebaseAuth.getInstance()
         db = FirebaseFirestore.getInstance()
+        // Verifica si hay un usuario logueado
+        val currentUser = auth.currentUser
+
+        if (currentUser != null) {
+            // Si hay un usuario autenticado, obtenemos el tipo de usuario desde Firestore
+            checkUserTypeAndRedirect(currentUser.uid)
+        }
 
         // Botón de registro de usuario
         val btnUsuario: Button = findViewById(R.id.btnUsuario)
@@ -41,43 +49,41 @@ class primera_vista : AppCompatActivity() {
         textViewYaTienesCuenta.setOnClickListener {
             showLoginDialog()
         }
-
-        // Verifica si hay un usuario logueado
-        val currentUser = auth.currentUser
-
-        if (currentUser != null) {
-            // Si hay un usuario autenticado, obtenemos el tipo de usuario desde Firestore
-            checkUserTypeAndRedirect(currentUser.uid)
-        }
     }
 
     // Verifica el tipo de usuario en Firestore y redirige a la vista correspondiente
     private fun checkUserTypeAndRedirect(userId: String) {
-        val userRef = db.collection("users").document(userId)
+        val userRef = db.collection("Users").whereEqualTo("userId", userId)
 
-        userRef.get().addOnSuccessListener { document ->
-            if (document != null) {
-                val userType = document.getString("userType")
-                if (userType == "Businesses") {
-                    // Redirigir a la vista del negocio
-                    val intent = Intent(this, Dashboard_Negocio::class.java)
-                    startActivity(intent)
-                    finish()
-                } else if (userType == "User") {
-                    // Redirigir a la vista del usuario
-                    val intent = Intent(this, Dashboard_Usuario::class.java)
-                    startActivity(intent)
-                    finish()
-                }
+        userRef.get().addOnSuccessListener { documents ->
+            if (!documents.isEmpty) {
+                // Si el usuario existe en la colección "Users", redirigir a Dashboard_Usuario
+                val intent = Intent(this, Dashboard_Usuario::class.java)
+                startActivity(intent)
+                finish()
             } else {
-                // Si el documento no existe, mostrar algún mensaje de error
-                // Aquí podrías mostrar un mensaje de error o manejar la excepción
+                // Si no está en "Users", buscar en "Businesses"
+                val negocioRef = db.collection("Businesses").whereEqualTo("userId", userId)
+
+                negocioRef.get().addOnSuccessListener { businessDocs ->
+                    if (!businessDocs.isEmpty) {
+                        // Si el negocio existe, redirigir a Dashboard_Negocio
+                        val intent = Intent(this, Dashboard_Negocio::class.java)
+                        startActivity(intent)
+                        finish()
+                    } else {
+                        // Si no se encuentra ni como usuario ni como negocio, puedes agregar un mensaje o quedarte en la vista actual
+                        Toast.makeText(this, "Usuario no encontrado", Toast.LENGTH_SHORT).show()
+                    }
+                }.addOnFailureListener { exception ->
+                    Toast.makeText(this, "Error al obtener los datos del negocio: $exception", Toast.LENGTH_SHORT).show()
+                }
             }
         }.addOnFailureListener { exception ->
-            // Manejar el error en caso de que no se pueda obtener el documento
-            // Podrías mostrar un mensaje de error si falla la conexión con Firestore
+            Toast.makeText(this, "Error al obtener los datos del usuario: $exception", Toast.LENGTH_SHORT).show()
         }
     }
+
 
     private fun showLoginDialog() {
         val builder = AlertDialog.Builder(this)

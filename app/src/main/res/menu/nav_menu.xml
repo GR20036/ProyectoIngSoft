@@ -14,9 +14,6 @@
         android:title="Servicios" />
 
     <item
-        android:id="@+id/nav_clientes"
-        android:title="Clientes" />
-    <item
         android:id="@+id/nav_logout"
-        android:title="Cerrar Sesión"/> <!-- Agrega el icono que desees -->
+        android:title="Cerrar Sesión"/>
 </menu>

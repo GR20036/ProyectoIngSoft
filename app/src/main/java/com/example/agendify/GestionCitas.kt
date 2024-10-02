@@ -160,10 +160,6 @@ class GestionCitas : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 val intent = Intent(this, GestionServicios::class.java)
                 startActivity(intent)
             }
-            R.id.nav_clientes -> {
-                val intent = Intent(this, Login_Usuario::class.java)
-                startActivity(intent)
-            }
             R.id.nav_logout -> {
                 cerrarSesion()
             }

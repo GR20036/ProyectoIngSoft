@@ -7,7 +7,6 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.Switch
-import android.widget.TimePicker
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -51,7 +50,6 @@ class configuracion_horario : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(R.layout.activity_configuracion_horario)
 
-        // Inicialización de componentes
         switchLunes = findViewById(R.id.switchLunes)
         LunesContainer = findViewById(R.id.timeLunesContainer)
         startLunesButton = findViewById(R.id.startLunesButton)
@@ -160,7 +158,6 @@ class configuracion_horario : AppCompatActivity() {
             }
         }
 
-        // Repetir para los demás días
         switchMartes.setOnCheckedChangeListener { _, isChecked ->
             MartesContainer.isVisible = isChecked
         }
@@ -329,7 +326,6 @@ class configuracion_horario : AppCompatActivity() {
                 hour = hourMinuteParts[0].toInt()
                 minute = hourMinuteParts[1].toInt()
 
-                // Convertir a formato de 24 horas si es necesario
                 if (amPmPart.equals("PM", ignoreCase = true) && hour < 12) {
                     hour += 12
                 } else if (amPmPart.equals("AM", ignoreCase = true) && hour == 12) {
@@ -353,8 +349,8 @@ class configuracion_horario : AppCompatActivity() {
             val amPm = if (selectedHour >= 12) "PM" else "AM"
             val hourFormatted = if (selectedHour > 12) selectedHour - 12 else if (selectedHour == 0) 12 else selectedHour
             val time = String.format("%02d:%02d %s", hourFormatted, selectedMinute, amPm)
-            onTimeSelected(time) // Devolver la hora seleccionada en formato hh:mm a
-        }, hour, minute, false) // `false` para formato de 12 horas
+            onTimeSelected(time)
+        }, hour, minute, false) //
 
         timePickerDialog.show()
     }

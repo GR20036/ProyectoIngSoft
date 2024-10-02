@@ -1,5 +1,6 @@
 package com.example.agendify;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,12 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
+import com.google.api.Authentication;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+
 import java.util.List;
 
 public class NegociosAdapter extends RecyclerView.Adapter<NegociosAdapter.NegociosViewHolder> {
@@ -34,6 +41,24 @@ public class NegociosAdapter extends RecyclerView.Adapter<NegociosAdapter.Negoci
         // Establecer los valores del nombre y la descripción en los TextViews
         holder.txtNombre.setText(negocio.getNombre());
         holder.txtDescripcion.setText(negocio.getDescripcion());
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        String nombreUsuario = "";
+        db.collection("Users")
+                .whereEqualTo("userId", auth.getCurrentUser().getUid())
+                .get()
+                .addOnSuccessListener(querySnapshot -> {
+                    if (!querySnapshot.isEmpty()) {
+                        // Suponiendo que solo hay un documento que coincide
+                        for (QueryDocumentSnapshot document : querySnapshot) {
+                        }
+                    } else {
+                        Log.d("NombreUsuario", "No se encontró el usuario.");
+                    }
+                })
+                .addOnFailureListener(e -> {
+                    Log.e("NombreUsuario", "Error al obtener el usuario", e);
+                });
 
 
         // Cargar el logo usando Glide desde una URL
@@ -44,7 +69,7 @@ public class NegociosAdapter extends RecyclerView.Adapter<NegociosAdapter.Negoci
                 .into(holder.imgLogoNegocio); // Cargar en el ImageView
         // Agendar cita: al hacer clic en el botón "Agendar Cita"
         holder.btnAgendarCita.setOnClickListener(v -> {
-            Intent intent = new Intent(holder.itemView.getContext(), GestionCitas.class);//temporal
+            Intent intent = new Intent(holder.itemView.getContext(), CrearCita_Usuario.class);//temporal
             intent.putExtra("negocioId", negocio.getId());  // Pasar el ID del negocio
             holder.itemView.getContext().startActivity(intent);
         });

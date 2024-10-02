@@ -119,7 +119,6 @@ class GestionServicios : AppCompatActivity(), NavigationView.OnNavigationItemSel
                 .addOnSuccessListener { documents ->
                     for (document in documents) {
                         val servicio = document.toObject(Servicio::class.java)
-                        Toast.makeText(this, "1",Toast.LENGTH_SHORT).show()
                         serviciosList.add(servicio)
                     }
                     serviciosAdapter.notifyDataSetChanged()
@@ -158,10 +157,6 @@ class GestionServicios : AppCompatActivity(), NavigationView.OnNavigationItemSel
             }
             R.id.nav_servicios -> {
 
-            }
-            R.id.nav_clientes -> {
-                val intent = Intent(this, Login_Usuario::class.java)
-                startActivity(intent)
             }
             R.id.nav_logout -> {
                 cerrarSesion()
