@@ -7,5 +7,9 @@
     <string name="navigation_drawer_open">Abrir menú</string>
     <string name="navigation_drawer_close">Cerrar menú</string>
 
-
+    <string name="nombre_negocio">Nombre del negocio <font color='#FF0000'>*</font></string>
+    <string name="direccion_negocio">Dirección del negocio <font color='#FF0000'>*</font></string>
+    <string name="numero_telefono">Número de teléfono <font color='#FF0000'>*</font></string>
+    <string name="correo_electronico">Correo electrónico <font color='#FF0000'>*</font></string>
+    <string name="contraseña_obligatoria">Contraseña <font color='#FF0000'>*</font></string>
 </resources>
