@@ -89,6 +89,10 @@ class Login_Usuario : AppCompatActivity() {
                     .addOnCompleteListener { task ->
                         if (task.isSuccessful) {
                             // Redirigir a la pantalla principal del usuario
+                            val intent = Intent(this, Dashboard_Usuario::class.java)
+                            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
+                            startActivity(intent)
+
                             Toast.makeText(this, "Inicio de sesión exitoso", Toast.LENGTH_SHORT).show()
                         } else {
                             Toast.makeText(this, "Error en inicio de sesión", Toast.LENGTH_SHORT).show()
